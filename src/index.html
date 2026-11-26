@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f4">
+  <meta name="description" content="Створіть кросворд зі своїх слів і запитань та завантажте готові аркуші у PDF.">
+  <title>Перетин — конструктор кросвордів</title>
+  <link rel="icon" type="image/svg+xml" href="./mark.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header><div class="bar">
+    <a class="brand" href="#main"><img src="./mark.svg" width="36" height="36" alt="">Перетин</a>
+    <div class="tools"><button id="help" class="quiet">Довідка</button><button id="new" class="secondary">Новий кросворд</button></div>
+  </div></header>
+  <main id="main">
+    <h1>Конструктор кросвордів</h1>
+    <div class="workspace">
+      <section class="card editor" aria-labelledby="dictionary">
+        <label class="label" for="title">Назва кросворда</label>
+        <input id="title" type="text" maxlength="100" placeholder="Мій кросворд">
+        <div class="section-heading"><h2 id="dictionary">Слова й запитання</h2><span id="word-count" class="count" aria-label="Кількість слів">0</span></div>
+        <div id="editor-list"></div>
+        <button id="add" class="add"><span aria-hidden="true">＋</span> Додати слово</button>
+        <div class="generate-area">
+          <p id="validation" role="status"></p>
+          <button id="generate" class="primary">Згенерувати сітку</button>
+        </div>
+        <div class="file-actions"><button id="import" class="quiet">Імпорт JSON</button><span aria-hidden="true">·</span><button id="json" class="quiet">Зберегти JSON</button><input type="file" id="import-file" accept=".json,application/json" hidden></div>
+      </section>
+      <section class="card preview" id="preview" aria-labelledby="preview-heading">
+        <div class="preview-heading"><h2 id="preview-heading">Попередній перегляд</h2><button class="secondary" id="export-top" disabled>Експорт у PDF</button></div>
+        <div class="paper" id="preview-area">
+          <div class="empty" id="empty-preview">
+            <div class="paper-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <h3>Тут з’явиться ваш кросворд</h3><p>Додайте щонайменше два слова зі спільною літерою та згенеруйте сітку.</p>
+          </div>
+          <div id="grid" role="img" hidden></div>
+        </div>
+        <div id="preview-meta" hidden><span id="dimensions"></span><div class="zoom"><button id="smaller" aria-label="Зменшити сітку">−</button><button id="larger" aria-label="Збільшити сітку">+</button></div></div>
+        <div id="preview-clues" hidden></div>
+      </section>
+    </div>
+  </main>
+  <dialog id="dialog" aria-labelledby="dialog-heading"><h2 id="dialog-heading"></h2><div id="dialog-body"></div><button id="close" aria-label="Закрити">×</button></dialog>
+  <div id="notice" role="status"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

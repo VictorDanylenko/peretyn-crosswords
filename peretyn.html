@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f4">
+  <meta name="description" content="Створіть кросворд зі своїх слів і запитань та завантажте готові аркуші у PDF.">
+  <title>Перетин — конструктор кросвордів</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+CiAgPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9IiMxNTRjM2UiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjQuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik0yMC41IDkuNSAxNSAzOC41TTMzIDkuNWwtNS41IDI5IiBzdHJva2U9IiNmZmZjZWYiLz4KICAgIDxwYXRoIGQ9Ik0xMC41IDE4LjVoMjhNOSAzMGgyOCIgc3Ryb2tlPSIjYzdlNmFhIi8+CiAgPC9nPgo8L3N2Zz4K">
+  <style>*{box-sizing:border-box}
+:root{color-scheme:light;--ink:#18332a;--pine:#154c3e;--soft:#56685f;--line:#d7dfd4;--paper:#f7f8f4;--serif:Georgia,"Noto Serif",serif;font:100%/1.5 "Inter","Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper)}
+body{margin:0} [hidden]{display:none!important}
+h1,h2,h3,p,ol{margin:0}
+h1,h2,.empty h3{font-family:var(--serif);font-weight:500;line-height:1.12;letter-spacing:-.045em}
+h1{font-size:clamp(2.28rem,4vw,3.65rem);margin:clamp(30px,4vw,58px) 0 clamp(24px,3vw,36px)}
+h2{font-size:clamp(1.45rem,2vw,1.85rem)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;font-weight:600;font-size:.93rem;padding:8px 13px;border-radius:9px;min-height:44px}
+button:disabled{opacity:.48;cursor:default}
+button:enabled:hover{filter:brightness(.94)}
+:focus-visible{outline:3px solid #9b641b;outline-offset:3px}
+header{border-bottom:1px solid var(--line);background:white}
+.bar,main{width:min(1216px,calc(100% - 8vw));margin:auto}
+.bar,.tools,.section-heading,.preview-heading,.file-actions,.zoom,.actions,#preview-meta{display:flex;align-items:center;gap:12px}
+.bar{min-height:76px;justify-content:space-between}
+.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;color:var(--pine);font:600 1.85rem/1 var(--serif);letter-spacing:-.065em}
+.brand img{display:block}
+.primary{color:white;background:var(--pine);padding-inline:20px}
+.secondary{background:#fff;border:1px solid #bccbbf;color:var(--pine)}
+.quiet{color:var(--soft)}
+.quiet:enabled:hover{background:#edf2e9}
+.workspace{display:grid;grid-template-columns:minmax(320px,.85fr) minmax(0,1.28fr);gap:24px;align-items:start;margin-bottom:42px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;min-width:0;padding:clamp(17px,2vw,28px);box-shadow:0 2px 7px #18332a05}
+label,.label{font-size:.93rem;font-weight:600}
+input[type=text],input[data-field],textarea{display:block;width:100%;border:1px solid #bac9bc;background:#fff;border-radius:8px;padding:10px 12px;min-height:44px;font-weight:400;font-size:1rem;margin-top:6px}
+textarea{resize:vertical}
+input::placeholder,textarea::placeholder{color:#6d796f}
+.section-heading{margin:24px 0 14px;justify-content:space-between}
+.count,.index{display:inline-grid;place-items:center;min-width:28px;height:26px;color:#41594b;background:#eef3eb;font-size:.875rem;font-weight:650;border-radius:7px}
+.entry{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:8px}
+.entry summary{display:flex;align-items:center;gap:10px;cursor:pointer;padding:9px 12px;list-style:none}
+.entry summary::-webkit-details-marker{display:none}
+.entry summary:focus-visible{outline-offset:-3px}
+.entry summary strong{font-size:.91rem;overflow-wrap:anywhere}
+.entry[open] summary{background:#f3f6f0}
+.chevron{width:8px;height:8px;border-right:1.5px solid;border-bottom:1.5px solid;transform:rotate(45deg);margin:-3px 5px 0 auto;flex:none}
+.entry[open] .chevron{transform:rotate(225deg);margin-top:4px}
+.fields{display:grid;gap:10px;padding:13px}
+.delete{justify-self:start;color:#8a423c;padding:3px 0;font-weight:500;font-size:.85rem;min-height:32px}
+.add{width:100%;border:1px dashed #9cb3a1;color:var(--pine);background:#f9fbf7;margin-top:12px}
+.generate-area{margin-top:20px}
+#generate{width:100%}
+#validation:not(:empty){padding:10px;margin-bottom:12px;border-radius:8px;background:#fff2d9;color:#704e14}
+.file-actions{gap:2px;justify-content:center;margin-top:7px;color:#758477}.file-actions button{font-size:.88rem}
+.preview-heading{justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.paper{padding:clamp(12px,2.3vw,30px);border:1px solid #dbe5d7;border-radius:11px;background-color:#f1f5ed;background-image:radial-gradient(#c3cfbe .8px,transparent .9px);background-size:12px 12px;overflow:auto;container-type:inline-size}
+.empty{display:grid;justify-items:center;align-content:center;min-height:clamp(300px,42vh,440px);text-align:center}
+.empty h3{font-size:clamp(1.4rem,2vw,1.8rem);margin:22px 0 8px}
+.empty p{font-size:.95rem;color:var(--soft);max-width:30ch}
+.paper-mark{display:grid;grid-template-columns:repeat(5,15px);grid-template-rows:repeat(5,15px);gap:1px;transform:rotate(-6deg)}
+.paper-mark i{background:white;outline:1px solid #a2b2a2}
+.paper-mark i:nth-child(1),.paper-mark i:nth-child(2),.paper-mark i:nth-child(8),.paper-mark i:nth-child(9){grid-column:3}
+.paper-mark i:nth-child(3){grid-column:1}.paper-mark i:nth-child(5){background:#c7e6aa}
+#grid{--cell:calc(clamp(16px,100cqi / var(--cols),34px) * var(--zoom,1));display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-auto-rows:var(--cell);width:max-content;margin:auto}
+.cell{display:grid;place-items:center;background:white;box-shadow:inset 0 0 0 .6px #647568;position:relative;font-weight:650;font-size:calc(var(--cell) * .54);padding-top:3px}
+.cell small{position:absolute;top:1px;left:2px;font:600 clamp(7px,calc(var(--cell) * .23),12px)/1 "Segoe UI",sans-serif}
+#preview-meta{justify-content:space-between;margin-top:10px;color:var(--soft);font-size:.9rem}
+.zoom{gap:0;border:1px solid var(--line);border-radius:8px}.zoom button{width:44px}
+#preview-clues{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;border-top:1px solid var(--line);margin-top:14px;padding-top:16px}
+#preview-clues h3{font-size:1rem;margin-bottom:8px}
+#preview-clues ol,dialog ol{padding-left:1.35em}
+li{margin-bottom:8px;overflow-wrap:anywhere}
+dialog{width:min(440px,calc(100vw - 28px));border:1px solid var(--line);border-radius:16px;color:var(--ink);padding:28px;max-height:90dvh}
+dialog::backdrop{background:#18332a65}
+dialog h2{padding-right:20px;margin-bottom:18px}
+dialog p{margin-bottom:12px;color:var(--soft)}
+#close{position:absolute;right:7px;top:6px;font-size:1.4rem}
+.option{display:flex;align-items:center;gap:8px;margin:16px 0}
+.option input{width:18px;height:18px;accent-color:var(--pine)}
+#notice:not(:empty){position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--pine);color:white;border-radius:9px;padding:10px 16px;max-width:calc(100% - 24px);width:max-content;pointer-events:none}
+@media(max-width:780px){.workspace{grid-template-columns:1fr;gap:16px}.bar,main{width:calc(100% - 28px)}.bar{min-height:64px}.tools{gap:1px}.brand{font-size:1.55rem;gap:7px}.brand img{width:30px;height:30px}.tools button{padding-inline:9px}.empty{min-height:220px}.card{border-radius:13px}.preview-heading{gap:8px}}
+@media(max-width:430px){#preview-clues{grid-template-columns:1fr}.bar,main{width:calc(100% - 24px)}.tools button{font-size:.84rem}.preview-heading h2{font-size:1.37rem}}
+</style>
+</head>
+<body>
+  <header><div class="bar">
+    <a class="brand" href="#main"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCI+CiAgPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9IiMxNTRjM2UiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjQuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik0yMC41IDkuNSAxNSAzOC41TTMzIDkuNWwtNS41IDI5IiBzdHJva2U9IiNmZmZjZWYiLz4KICAgIDxwYXRoIGQ9Ik0xMC41IDE4LjVoMjhNOSAzMGgyOCIgc3Ryb2tlPSIjYzdlNmFhIi8+CiAgPC9nPgo8L3N2Zz4K" width="36" height="36" alt="">Перетин</a>
+    <div class="tools"><button id="help" class="quiet">Довідка</button><button id="new" class="secondary">Новий кросворд</button></div>
+  </div></header>
+  <main id="main">
+    <h1>Конструктор кросвордів</h1>
+    <div class="workspace">
+      <section class="card editor" aria-labelledby="dictionary">
+        <label class="label" for="title">Назва кросворда</label>
+        <input id="title" type="text" maxlength="100" placeholder="Мій кросворд">
+        <div class="section-heading"><h2 id="dictionary">Слова й запитання</h2><span id="word-count" class="count" aria-label="Кількість слів">0</span></div>
+        <div id="editor-list"></div>
+        <button id="add" class="add"><span aria-hidden="true">＋</span> Додати слово</button>
+        <div class="generate-area">
+          <p id="validation" role="status"></p>
+          <button id="generate" class="primary">Згенерувати сітку</button>
+        </div>
+        <div class="file-actions"><button id="import" class="quiet">Імпорт JSON</button><span aria-hidden="true">·</span><button id="json" class="quiet">Зберегти JSON</button><input type="file" id="import-file" accept=".json,application/json" hidden></div>
+      </section>
+      <section class="card preview" id="preview" aria-labelledby="preview-heading">
+        <div class="preview-heading"><h2 id="preview-heading">Попередній перегляд</h2><button class="secondary" id="export-top" disabled>Експорт у PDF</button></div>
+        <div class="paper" id="preview-area">
+          <div class="empty" id="empty-preview">
+            <div class="paper-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <h3>Тут з’явиться ваш кросворд</h3><p>Додайте щонайменше два слова зі спільною літерою та згенеруйте сітку.</p>
+          </div>
+          <div id="grid" role="img" hidden></div>
+        </div>
+        <div id="preview-meta" hidden><span id="dimensions"></span><div class="zoom"><button id="smaller" aria-label="Зменшити сітку">−</button><button id="larger" aria-label="Збільшити сітку">+</button></div></div>
+        <div id="preview-clues" hidden></div>
+      </section>
+    </div>
+  </main>
+  <dialog id="dialog" aria-labelledby="dialog-heading"><h2 id="dialog-heading"></h2><div id="dialog-body"></div><button id="close" aria-label="Закрити">×</button></dialog>
+  <div id="notice" role="status"></div>
+  <script>const key=(x,y)=>`${x},${y}`;
+function normalize(word){return word.normalize('NFC').toLocaleUpperCase('uk-UA').replace(/[\s’'ʼ-]/gu,'');}
+function validate(entries){
+ const errors=[], seen=new Set();
+ if(entries.length<2)errors.push('Додайте щонайменше два слова для перетину.');
+ if(entries.length>60)errors.push('В одному кросворді може бути до 60 слів.');
+ for(const e of entries){const w=normalize(e.word);if(!/^[А-ЩЬЮЯЄІЇҐA-Z]{2,24}$/u.test(w))errors.push(`Рядок ${e.id}: слово має містити 2–24 літери без цифр.`);if(seen.has(w))errors.push(`Слово «${w}» повторюється.`);seen.add(w);if(!e.clue.trim())errors.push(`Додайте запитання до слова «${w}».`);}
+ return errors;
+}
+function random(seed){return()=>{seed=(seed+0x6D2B79F5)>>>0;let t=seed;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296;};}
+function bounds(placed){let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;for(const p of placed){minX=Math.min(minX,p.x);minY=Math.min(minY,p.y);maxX=Math.max(maxX,p.x+(p.dir==='across'?p.word.length-1:0));maxY=Math.max(maxY,p.y+(p.dir==='down'?p.word.length-1:0));}return{minX,minY,maxX,maxY,width:maxX-minX+1,height:maxY-minY+1};}
+function fit(grid, word,x,y,dir){const dx=dir==='across'?1:0,dy=1-dx;if(grid.has(key(x-dx,y-dy))||grid.has(key(x+dx*word.length,y+dy*word.length)))return 0;let crosses=0;
+ for(let i=0;i<word.length;i++){const cx=x+dx*i,cy=y+dy*i,c=grid.get(key(cx,cy));if(c){if(c.char!==word[i]||c.dirs.includes(dir))return 0;crosses++;}else if(grid.has(key(cx-dy,cy-dx))||grid.has(key(cx+dy,cy+dx)))return 0;}
+ return crosses;
+}
+function put(grid,p){for(let i=0;i<p.word.length;i++){const x=p.x+(p.dir==='across'?i:0),y=p.y+(p.dir==='down'?i:0),k=key(x,y),old=grid.get(k);grid.set(k,{x,y,char:p.word[i],dirs:[...(old?.dirs||[]),p.dir]});}}
+function generate(input,{seed=Date.now(),attempts=180,maxDimension=45}={}){
+ const errors=validate(input);if(errors.length)throw Error(errors.join('\n'));const entries=input.map(e=>({...e,word:normalize(e.word)})),rng=random(seed);let best;
+ for(let attempt=0;attempt<attempts;attempt++){
+  const sorted=[...entries].sort((a,b)=>b.word.length-a.word.length);const root=sorted[attempt%Math.min(sorted.length,8)];const placed=[{...root,x:0,y:0,dir:attempt%2?'down':'across'}],grid=new Map();put(grid,placed[0]);let remaining=entries.filter(e=>e.id!==root.id),stalled=false;
+  while(remaining.length&&!stalled){let choice=null;
+   for(const e of remaining){for(let i=0;i<e.word.length;i++){for(const c of grid.values()){if(c.char!==e.word[i]||c.dirs.length===2)continue;const dir=c.dirs[0]==='across'?'down':'across',x=c.x-(dir==='across'?i:0),y=c.y-(dir==='down'?i:0);const crosses=fit(grid,e.word,x,y,dir);if(!crosses)continue;const p={...e,x,y,dir},b=bounds([...placed,p]);if(b.width>maxDimension||b.height>maxDimension)continue;const score=crosses*35-b.width*b.height*.22-Math.abs(b.width-b.height)*2+rng()*20+e.word.length*.3;if(!choice||score>choice.score)choice={p,score};}}}
+   if(choice){placed.push(choice.p);put(grid,choice.p);remaining=remaining.filter(e=>e.id!==choice.p.id);}else stalled=true;
+  }
+  const b=bounds(placed),intersections=[...grid.values()].filter(c=>c.dirs.length===2).length,quality=placed.length*10000-b.width*b.height+intersections*7-Math.abs(b.width-b.height)*3;
+  if(!best||quality>best.quality)best={placed,remaining,b,quality};
+ }
+ const {b}=best,placed=best.placed.map(p=>({...p,x:p.x-b.minX,y:p.y-b.minY})).sort((a,b)=>a.y-b.y||a.x-b.x||a.dir.localeCompare(b.dir)),starts=new Map();let num=0;for(const p of placed){const k=key(p.x,p.y);if(!starts.has(k))starts.set(k,++num);p.number=starts.get(k);}
+ const cells=new Map();placed.forEach(p=>put(cells,p));return{placed,omitted:best.remaining,width:b.width,height:b.height,cells:[...cells.values()].map(c=>({...c,number:starts.get(key(c.x,c.y))||null})),seed};
+}
+function verify(puzzle){
+ const seen=new Set([puzzle.placed[0]?.id]);let change=true;while(change){change=false;for(const a of puzzle.placed)if(seen.has(a.id))for(const b of puzzle.placed)if(!seen.has(b.id)&&a.dir!==b.dir){const h=a.dir==='across'?a:b,v=a.dir==='down'?a:b;if(v.x>=h.x&&v.x<h.x+h.word.length&&h.y>=v.y&&h.y<v.y+v.word.length&&h.word[v.x-h.x]===v.word[h.y-v.y]){seen.add(b.id);change=true;}}}
+ return seen.size===puzzle.placed.length;
+}
+
+// Browser-local PDF export: high-resolution JPEG pages embedded in a valid PDF.
+// Rendering text through Canvas preserves Ukrainian glyphs without external fonts.
+async function makePDF(puzzle,title,{answers=false}={}){
+ const pages=[],W=1240,H=1754,M=85;
+ function page(label){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle='#19483e';x.font='bold 19px Arial';x.fillText('ПЕРЕТИН / МАЙСТЕРНЯ КРОСВОРДІВ',M,65);x.fillStyle='#162b27';x.font='bold 34px Arial';wrap(x,title,M,125,W-2*M,43);x.font='18px Arial';x.fillStyle='#64736e';x.fillText(label,M,190);pages.push(c);return x;}
+ let x=page(answers?'Аркуш із відповідями':'Заповніть сітку за описами на наступних сторінках.');
+ const s=Math.min(52,(W-2*M)/puzzle.width,(H-410)/puzzle.height),left=(W-puzzle.width*s)/2,top=250;
+ const cells=new Map(puzzle.cells.map(c=>[`${c.x},${c.y}`,c]));
+ for(let r=0;r<puzzle.height;r++)for(let col=0;col<puzzle.width;col++){const c=cells.get(`${col},${r}`),px=left+col*s,py=top+r*s;x.fillStyle=c?'#ffffff':'#f0f2f0';x.fillRect(px,py,s,s);if(!c)continue;x.strokeStyle='#344b43';x.lineWidth=1.2;x.strokeRect(px,py,s,s);if(c.number){x.font=`${Math.max(8,s*.23)}px Arial`;x.fillStyle='#2c4e40';x.fillText(c.number,px+s*.09,py+s*.27);}if(answers){x.font=`bold ${s*.51}px Arial`;x.fillStyle='#142e25';x.textAlign='center';x.fillText(c.char,px+s*.52,py+s*.77);x.textAlign='left';}}
+ x.font='20px Arial';x.fillStyle='#64736e';x.fillText(`${puzzle.placed.length} слів  ·  ${puzzle.width} × ${puzzle.height} клітинок`,M,H-125);
+ x=page('Запитання до кросворда');let y=255;
+ for(const [dir,label]of[['across','За горизонталлю'],['down','За вертикаллю']]){if(y>H-250){x=page('Запитання · продовження');y=255;}x.font='bold 27px Arial';x.fillStyle='#19483e';x.fillText(label,M,y);y+=48;
+  for(const p of puzzle.placed.filter(p=>p.dir===dir)){x.font='21px Arial';const text=`${p.number}. ${p.clue} (${p.word.length})${answers?' — '+p.word:''}`,lines=linesFor(x,text,W-2*M);if(y+lines.length*31>H-135){x=page(label+' · продовження');y=255;x.font='21px Arial';}x.fillStyle='#203b32';for(const line of lines){x.fillText(line,M,y);y+=31;}y+=20;}y+=25;
+ }
+ pages.forEach((c,i)=>{const cx=c.getContext('2d');cx.strokeStyle='#dbe2dd';cx.beginPath();cx.moveTo(M,H-80);cx.lineTo(W-M,H-80);cx.stroke();cx.font='17px Arial';cx.fillStyle='#77867c';cx.fillText('Перетин · '+(answers?'Відповіді':'Навчальний кросворд'),M,H-49);cx.textAlign='right';cx.fillText(`${i+1} / ${pages.length}`,W-M,H-49);});
+ const enc=new TextEncoder(),chunks=[],offsets=[0];let length=0;
+ function add(v){const bytes=typeof v==='string'?enc.encode(v):v;chunks.push(bytes);length+=bytes.length;}
+ function obj(n,v){offsets[n]=length;add(`${n} 0 obj\n`);add(v);add('\nendobj\n');}
+ add('%PDF-1.4\n');obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,`<< /Type /Pages /Count ${pages.length} /Kids [${pages.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] >>`);
+ for(let i=0;i<pages.length;i++){const n=3+i*3,raw=atob(pages[i].toDataURL('image/jpeg',.96).split(',')[1]),jpeg=Uint8Array.from(raw,c=>c.charCodeAt(0));obj(n,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 ${n+1} 0 R >> >> /Contents ${n+2} 0 R >>`);offsets[n+1]=length;add(`${n+1} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${W} /Height ${H} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);add(jpeg);add('\nendstream\nendobj\n');const stream='q 595.28 0 0 841.89 0 0 cm /Im0 Do Q';obj(n+2,`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);}
+ const start=length,count=3+pages.length*3;add(`xref\n0 ${count}\n0000000000 65535 f \n`);for(let i=1;i<count;i++)add(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);add(`trailer\n<< /Size ${count} /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`);return new Blob(chunks,{type:'application/pdf'});
+}
+function linesFor(ctx,text,width){const out=[];let line='';for(const word of text.split(/\s+/)){if(line&&ctx.measureText(line+' '+word).width>width){out.push(line);line=word;}else line+=(line?' ':'')+word;}if(line)out.push(line);return out;}
+function wrap(ctx,text,x,y,width,lineHeight){for(const line of linesFor(ctx,text,width)){ctx.fillText(line,x,y);y+=lineHeight;}}
+function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);}
+
+
+const $ = selector => document.querySelector(selector);
+const storageKey = 'peretyn-creator-v2';
+const blankRow = id => ({id,word:'',clue:''});
+const defaultName = 'Мій кросворд';
+let rows = [], title = '', puzzle = null, zoom = 1, generating = false;
+let noticeTimer;
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+function readRows(entries) {
+  if (!Array.isArray(entries) || entries.length > 60 || entries.some(row =>
+    typeof row?.word !== 'string' || typeof row.clue !== 'string')) throw Error('Файл має містити до 60 пар «слово й запитання» у списку entries.');
+  return entries.map(({word,clue},i) => ({id:i+1,word,clue}));
+}
+function material() {
+  return rows.filter(row => row.word.trim() || row.clue.trim());
+}
+function isOriginalExample(entries, name) {
+  if (entries.length !== 19 || name !== 'Основи психодіагностики') return false;
+  // Fingerprint of the original, untouched example. Modified dictionaries are user work.
+  let hash = 2166136261;
+  for (const ch of JSON.stringify(entries.map(row => [row.word,row.clue]))) {
+    hash = Math.imul(hash ^ ch.charCodeAt(0),16777619);
+  }
+  return (hash >>> 0) === 1062223346;
+}
+function restore() {
+  try {
+    let saved = JSON.parse(localStorage.getItem(storageKey));
+    if (!saved) {
+      const legacy = JSON.parse(localStorage.getItem('peretyn-v1'));
+      if (!legacy) return;
+      const source = legacy.draft || legacy;
+      const entries = readRows(source.entries);
+      if (!legacy.draft && isOriginalExample(entries,source.title)) return;
+      saved = {entries,title:source.title,seed:legacy.draft ? null : legacy.puzzle?.seed};
+    }
+    rows = readRows(saved.entries);
+    title = String(saved.title ?? '').slice(0,100);
+    if (Number.isFinite(saved.seed) && !validate(material()).length) {
+      const previous = generate(material(),{seed:saved.seed});
+      if (!previous.omitted.length) puzzle = previous;
+    }
+  } catch { /* An unreadable local save must not prevent opening the editor. */ }
+}
+function persist() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify({title,entries:rows,seed:puzzle?.seed ?? null}));
+  } catch { notice('Автозбереження недоступне. Збережіть словник у JSON.'); }
+}
+function notice(message) {
+  clearTimeout(noticeTimer);
+  $('#notice').textContent = message;
+  noticeTimer = setTimeout(() => { $('#notice').textContent = ''; },4500);
+}
+function updateControls() {
+  $('#word-count').textContent = rows.filter(row => row.word.trim()).length;
+  $('#generate').disabled = generating || material().length < 2;
+  $('#generate').textContent = generating ? 'Шукаємо перетини…' : 'Згенерувати сітку';
+  $('#export-top').disabled = !puzzle || generating;
+  $('#json').disabled = !material().length && !title;
+  $('#add').disabled = rows.length >= 60;
+  $('#new').disabled = !title && !material().length;
+}
+function renderRows(openId) {
+  if (!rows.length) rows.push(blankRow(1));
+  $('#title').value = title;
+  $('#editor-list').innerHTML = rows.map((row,i) => `
+    <details class="entry" data-row="${row.id}" ${row.id === openId || (rows.length === 1 && !row.word) ? 'open' : ''}>
+      <summary><span class="index">${i+1}</span><strong>${escapeHTML(row.word || 'Нове слово')}</strong><span aria-hidden="true" class="chevron"></span></summary>
+      <div class="fields">
+        <label>Слово<input data-field="word" maxlength="24" value="${escapeHTML(row.word)}" autocomplete="off" placeholder="Введіть слово"></label>
+        <label>Запитання<textarea data-field="clue" maxlength="500" rows="2" placeholder="Як його відгадати?">${escapeHTML(row.clue)}</textarea></label>
+        <button class="delete">Видалити слово</button>
+      </div>
+    </details>`).join('');
+  updateControls();
+}
+function setZoom(value) {
+  zoom = Math.max(1,Math.min(2,value));
+  $('#grid').style.setProperty('--zoom',zoom);
+  $('#smaller').disabled = zoom === 1;
+  $('#larger').disabled = zoom === 2;
+}
+function renderPreview() {
+  $('#empty-preview').hidden = !!puzzle;
+  $('#grid').hidden = $('#preview-meta').hidden = $('#preview-clues').hidden = !puzzle;
+  const grid = $('#grid');
+  if (!puzzle) {
+    grid.replaceChildren();
+    $('#preview-clues').replaceChildren();
+    return;
+  }
+  const cells = new Map(puzzle.cells.map(c => [key(c.x,c.y),c]));
+  grid.style.setProperty('--cols',puzzle.width);
+  grid.setAttribute('aria-label','Сітка зі словами, '+puzzle.width+' на '+puzzle.height+'.');
+  grid.innerHTML = Array.from({length:puzzle.width*puzzle.height},(_,i) => {
+    const c = cells.get(key(i % puzzle.width, Math.floor(i / puzzle.width)));
+    if (!c) return '<div></div>';
+    return '<div class="cell">'+(c.number ? '<small>'+c.number+'</small>' : '')+escapeHTML(c.char)+'</div>';
+  }).join('');
+  $('#dimensions').textContent = 'Розмір сітки · '+puzzle.width+' × '+puzzle.height;
+  $('#preview-clues').innerHTML = ['across','down'].map(dir => '<section><h3>'+
+    (dir === 'across' ? 'За горизонталлю' : 'За вертикаллю')+'</h3><ol>'+
+    puzzle.placed.filter(p => p.dir === dir).map(p => '<li value="'+p.number+'">'+escapeHTML(p.clue)+'</li>').join('')+'</ol></section>').join('');
+  setZoom(1);
+}
+function edited() {
+  if (puzzle) { puzzle = null; renderPreview(); }
+  $('#validation').textContent = '';
+  updateControls();
+  persist();
+}
+async function rebuild() {
+  if (generating) return;
+  const problems = validate(material());
+  $('#validation').textContent = problems[0] || '';
+  if (problems.length) return;
+  generating = true;
+  updateControls();
+  try {
+    await new Promise(resolve => setTimeout(resolve,25));
+    const next = generate(material());
+    if (next.omitted.length) {
+      $('#validation').textContent = 'Не вдалося з’єднати слова: '+next.omitted.map(row => row.word).join(', ')+'. Змініть словник або спробуйте ще раз.';
+      return;
+    }
+    puzzle = next;
+    renderPreview();
+    persist();
+    notice('Кросворд готовий до експорту.');
+    if (matchMedia('(max-width: 780px)').matches) $('#preview').scrollIntoView({block:'start'});
+  } catch(error) { $('#validation').textContent = error.message; }
+  finally { generating = false; updateControls(); }
+}
+function dialog(heading,body) {
+  $('#dialog-heading').textContent = heading;
+  $('#dialog-body').innerHTML = body;
+  $('#dialog').showModal();
+}
+$('#close').onclick = () => $('#dialog').close();
+$('#help').onclick = () => dialog('Як створити кросворд','<ol><li>Введіть назву, додайте слова із запитаннями або імпортуйте словник JSON.</li><li>Натисніть «Згенерувати сітку». Слова мають утворювати зв’язану сітку через спільні літери.</li><li>Перегляньте перетини й нумерацію. «Експорт у PDF» готує аркуші для друку та, за бажанням, окремий ключ.</li></ol>');
+$('#new').onclick = () => {
+  dialog('Почати новий кросворд?','<p>Поточну чернетку буде замінено. Щоб повернутися до неї пізніше, збережіть словник у JSON.</p><div class="actions"><button id="cancel" class="secondary">Скасувати</button><button id="confirm" class="primary">Створити новий</button></div>');
+  $('#cancel').onclick = () => $('#dialog').close();
+  $('#confirm').onclick = () => {
+    $('#dialog').close();
+    title = ''; rows = []; puzzle = null;
+    renderRows(); renderPreview(); edited();
+    $('#title').focus();
+  };
+};
+$('#title').oninput = event => { title = event.target.value; updateControls(); persist(); };
+$('#editor-list').oninput = event => {
+  const field = event.target.dataset.field;
+  if (!field) return;
+  const details = event.target.closest('.entry');
+  const row = rows.find(r => r.id === Number(details.dataset.row));
+  row[field] = field === 'word' ? event.target.value.toLocaleUpperCase('uk-UA') : event.target.value;
+  if (field === 'word') details.querySelector('strong').textContent = row.word || 'Нове слово';
+  edited();
+};
+$('#editor-list').onclick = event => {
+  if (!event.target.closest('.delete')) return;
+  const id = Number(event.target.closest('.entry').dataset.row);
+  rows = rows.filter(r => r.id !== id);
+  renderRows(); edited();
+};
+$('#add').onclick = () => {
+  const id = Math.max(0,...rows.map(r => r.id))+1;
+  rows.push(blankRow(id));
+  renderRows(id);
+  $('.entry:last-child input').focus();
+  persist();
+};
+$('#generate').onclick = rebuild;
+$('#larger').onclick = () => setZoom(zoom+.25);
+$('#smaller').onclick = () => setZoom(zoom-.25);
+$('#import').onclick = () => $('#import-file').click();
+$('#import-file').onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    if (file.size > 200000) throw Error('Оберіть файл розміром до 200 КБ.');
+    const data = JSON.parse(await file.text());
+    const imported = readRows(data?.entries);
+    title = String(data.title ?? '').slice(0,100);
+    rows = imported;
+    renderRows(rows[0]?.id); edited();
+    if (!validate(material()).length) await rebuild();
+    else notice('Чернетку імпортовано. Доповніть словник для генерації.');
+  } catch(error) { $('#validation').textContent = error.message; }
+  finally { event.target.value = ''; }
+};
+$('#json').onclick = () => download(new Blob([JSON.stringify({title,entries:material()},null,2)],{type:'application/json'}),'peretyn-words.json');
+$('#export-top').onclick = () => {
+  dialog('Експорт у PDF','<p>Аркуші A4 із порожньою сіткою та запитаннями.</p><label class="option"><input type="checkbox" id="with-answers">Додати окремий PDF із відповідями</label><button id="download-pdf" class="primary">Завантажити PDF</button><p id="pdf-error" role="alert"></p>');
+  $('#download-pdf').onclick = async () => {
+    const button = $('#download-pdf'), withAnswers = $('#with-answers').checked;
+    button.disabled = true;
+    try {
+      download(await makePDF(puzzle,title.trim() || defaultName), 'peretyn-crossword.pdf');
+      if (withAnswers) download(await makePDF(puzzle,title.trim() || defaultName,{answers:true}), 'peretyn-answers.pdf');
+      $('#dialog').close();
+    } catch(error) { $('#pdf-error').textContent = error.message; button.disabled = false; }
+  };
+};
+restore();
+renderRows(rows[0]?.id);
+renderPreview();
+</script>
+</body>
+</html>

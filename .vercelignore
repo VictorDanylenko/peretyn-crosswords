@@ -1,0 +1,6 @@
+artifacts/
+tests/
+node_modules/
+*.zip
+*.pdf
+peretyn.html

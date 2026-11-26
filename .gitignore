@@ -1,0 +1,8 @@
+node_modules/
+artifacts/
+*.log
+dist/
+.vercel/
+/peretyn-*.zip
+/answers.pdf
+/crossword.pdf
