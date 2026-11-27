@@ -20,6 +20,8 @@ button:disabled{opacity:.48;cursor:default}
 button:enabled:hover{filter:brightness(.94)}
 :focus-visible{outline:3px solid #9b641b;outline-offset:3px}
 header{border-bottom:1px solid var(--line);background:white}
+footer{border-top:1px solid var(--line);padding:18px 14px;text-align:center;color:var(--soft);font-size:.9rem}
+footer a{color:var(--pine);text-underline-offset:.18em}
 .bar,main{width:min(1216px,calc(100% - 8vw));margin:auto}
 .bar,.tools,.section-heading,.preview-heading,.file-actions,.zoom,.actions,#preview-meta{display:flex;align-items:center;gap:12px}
 .bar{min-height:76px;justify-content:space-between}
@@ -116,6 +118,7 @@ dialog p{margin-bottom:12px;color:var(--soft)}
       </section>
     </div>
   </main>
+  <footer>Зроблено <a href="https://www.linkedin.com/in/victor-danylenko-487610437/">Віктором Даниленком</a></footer>
   <dialog id="dialog" aria-labelledby="dialog-heading"><h2 id="dialog-heading"></h2><div id="dialog-body"></div><button id="close" aria-label="Закрити">×</button></dialog>
   <div id="notice" role="status"></div>
   <script>const key=(x,y)=>`${x},${y}`;

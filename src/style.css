@@ -11,6 +11,8 @@ button:disabled{opacity:.48;cursor:default}
 button:enabled:hover{filter:brightness(.94)}
 :focus-visible{outline:3px solid #9b641b;outline-offset:3px}
 header{border-bottom:1px solid var(--line);background:white}
+footer{border-top:1px solid var(--line);padding:18px 14px;text-align:center;color:var(--soft);font-size:.9rem}
+footer a{color:var(--pine);text-underline-offset:.18em}
 .bar,main{width:min(1216px,calc(100% - 8vw));margin:auto}
 .bar,.tools,.section-heading,.preview-heading,.file-actions,.zoom,.actions,#preview-meta{display:flex;align-items:center;gap:12px}
 .bar{min-height:76px;justify-content:space-between}
